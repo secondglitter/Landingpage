@@ -1,9 +1,10 @@
 # Landingpage Renta de Yates
 
-Este repositorio contiene dos carpetas principales:
+Este repositorio contiene dos carpetas principales y el script de la base de datos:
 
 - `backend/`: Código del backend hecho con Node.js y MySQL.
 - `frontend/`: Código del frontend con Astro.
+- `Base de datos`: Hecho con mysql
 
 ---
 
