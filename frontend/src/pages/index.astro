@@ -1,0 +1,32 @@
+---
+import "./src/styles/global.css";
+import Encabezado from "../components/Encabezado.astro";
+import Contador from "../components/Contador.astro";
+import Cards from "../components/Cards.astro";
+import Info from "../components/Info.astro";
+import Formulario from "../components/Formulario.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
+    <Encabezado />
+    <Contador />
+    <Cards />
+    <Info />
+    <Formulario
+      title="VNV YACHTS"
+      direction="Calle Vialidad Paseo Mujeres Manzana 1, Lote 1 Zona Continental Isla Mujeres Q. Roo."
+      email="info.marina@vnvgroup.com"
+      phone="+52 (998) 109 5795"
+    />
+    <Footer />
+  </body>
+</html>

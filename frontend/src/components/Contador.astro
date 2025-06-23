@@ -1,0 +1,118 @@
+<div class="contador">
+  <div class="des">
+    <h1><strong>Aprovecha nuestras ofertas de tiempo limitado</strong></h1>
+    <p>
+      <strong>¡Contacta a un asesor hoy y recibe una consulta gratuita y un 5% de
+        descuento en tu primera compra! Esta oferta exclusiva está disponible solo
+        por tiempo limitado.</strong>
+    </p>
+  </div>
+  <br />
+  <div id="timer">
+    <span id="horas">12</span> : <span id="minutos">00</span> :
+    <span id="segundos">00</span>
+  </div>
+  <div class="des">
+    <h2>
+      <strong>
+        Conoce nuestra flota <br>
+        Nuestra exclusiva flota de yates de lujo incluye:</strong
+      >
+    </h2>
+  </div>
+</div>
+<style>
+  .des h1 {
+    font-size: 32px;
+  }
+  .des h2 {
+    font-size: 24px;
+  }
+  .des p {
+    font-size: 16px;
+  }
+  .contador {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .contador h1 {
+    margin-bottom: 20px;
+  }
+
+  #timer {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+
+  #timer span {
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    margin: 0 5px;
+  }
+</style>
+
+<script>
+  function iniciarContadorRegresivo(): void {
+    const ahora = new Date().getTime();
+    const limite = ahora + 12 * 60 * 60 * 1000;
+
+    const x = setInterval(() => {
+      const ahora = new Date().getTime();
+      const diferencia = limite - ahora;
+
+      const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+      const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+      const horasEl = document.getElementById("horas");
+      const minutosEl = document.getElementById("minutos");
+      const segundosEl = document.getElementById("segundos");
+
+      if (horasEl && minutosEl && segundosEl) {
+        horasEl.textContent = formatoTiempo(horas);
+        minutosEl.textContent = formatoTiempo(minutos);
+        segundosEl.textContent = formatoTiempo(segundos);
+      }
+
+      if (diferencia < 0) {
+        clearInterval(x);
+        const timerEl = document.getElementById("timer");
+        if (timerEl) timerEl.textContent = "¡Tiempo agotado!";
+      }
+    }, 1000);
+  }
+
+  function formatoTiempo(tiempo: number): string {
+    return tiempo < 10 ? "0" + tiempo : tiempo.toString();
+  }
+
+  function scrollToContact(event: Event): void {
+    event.preventDefault();
+    const target = event.currentTarget as HTMLAnchorElement;
+    const targetId = target.getAttribute("href")?.substring(1);
+    if (!targetId) return;
+
+    const targetElement = document.getElementById(targetId);
+    if (!targetElement) return;
+
+    const topOffset = targetElement.getBoundingClientRect().top;
+    const scrollDistance = topOffset + window.scrollY;
+
+    window.scrollTo({
+      top: scrollDistance,
+      behavior: "smooth",
+    });
+  }
+
+  window.onload = () => {
+    iniciarContadorRegresivo();
+
+    const buttons = document.querySelectorAll(".action");
+    buttons.forEach((button) => {
+      button.addEventListener("click", scrollToContact);
+    });
+  };
+</script>
