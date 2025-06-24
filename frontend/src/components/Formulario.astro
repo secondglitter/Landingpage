@@ -9,6 +9,9 @@ interface Props {
 const { title, direction, email, phone } = Astro.props;
 ---
 
+<!-- Script de reCAPTCHA en el head de tu layout si puedes -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 <section class="lg:w-5/6 flex flex-wrap items-center justify-center mx-auto sm:w-full mb-14 min-h-[500px]">
   <div class="w-2/3 bg-white h-full">
     <h3 class="text-lg font-medium my-5">{title}</h3>
@@ -66,6 +69,17 @@ const { title, direction, email, phone } = Astro.props;
         ></textarea>
       </div>
 
+      <!-- ✅ Checkbox de términos -->
+      <div class="mb-5 flex items-center">
+        <input type="checkbox" id="privacidad" class="mr-2" required />
+        <label for="privacidad" class="text-sm text-gray-600">
+          Acepto los <a href="/aviso-privacidad" target="_blank" class="text-blue-600 underline">términos y condiciones</a>
+        </label>
+      </div>
+
+      <!-- ✅ reCAPTCHA v2 -->
+      <div class="g-recaptcha mb-5" data-sitekey="6LdWaWsrAAAAAEbkRSCnfQjUUl_-oo1zDhql0ems"></div>
+
       <div>
         <button
           id="buttonSend"
@@ -106,6 +120,7 @@ const { title, direction, email, phone } = Astro.props;
   </aside>
 </section>
 
+<!-- ✅ Script de envío -->
 <script>
   //@ts-nocheck
   const $form = document.getElementById("form");
@@ -113,11 +128,18 @@ const { title, direction, email, phone } = Astro.props;
   $form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    const captchaToken = grecaptcha.getResponse();
+    if (!captchaToken) {
+      alert("Por favor completa el reCAPTCHA.");
+      return;
+    }
+
     const datos = {
       nombre: $form.name.value,
       telefono: $form.telefono.value,
       correo: $form.email.value,
       mensaje: $form.mensaje.value,
+      captcha: captchaToken,
     };
 
     try {
@@ -131,9 +153,10 @@ const { title, direction, email, phone } = Astro.props;
 
       if (res.ok) {
         alert("Formulario enviado con éxito.");
+        grecaptcha.reset(); // Reinicia el captcha
         $form.reset();
       } else {
-        alert("Error al enviar: " + data?.error ?? "Error desconocido");
+        alert("Error al enviar: " + (data?.error ?? "Error desconocido"));
       }
     } catch (err) {
       console.error("Error inesperado:", err);
