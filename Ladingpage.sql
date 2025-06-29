@@ -8,6 +8,7 @@ CREATE TABLE contactos (
   telefono VARCHAR(20),
   correo VARCHAR(100),
   mensaje TEXT,
+  Terminos BOOLEAN,
   fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
